@@ -51,6 +51,12 @@ namespace RGB.NET.Devices.Aura
         /// <inheritdoc />
         protected override void ApplyColorData() => _AuraSDK.SetClaymoreKeyboardColor(KeyboardDeviceInfo.Handle, ColorData);
 
+        /// <inheritdoc />
+        public override byte[] CurrentColorData()
+        {
+            throw new System.NotImplementedException();
+        }
+
         #endregion
     }
 }

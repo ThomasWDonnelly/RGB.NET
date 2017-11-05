@@ -129,6 +129,11 @@ namespace RGB.NET.Devices.Aura
         /// </summary>
         protected abstract void ApplyColorData();
 
+        /// <summary>
+        /// Gets available rbg color values from the device.
+        /// </summary>
+        public abstract byte[] CurrentColorData();
+
         /// <inheritdoc />
         public override void Dispose()
         {

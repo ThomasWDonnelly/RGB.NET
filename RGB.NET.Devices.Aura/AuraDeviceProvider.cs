@@ -115,7 +115,7 @@ namespace RGB.NET.Devices.Aura
                 #region Graphics cards
 
                 //TODO DarthAffe 21.10.2017: This somehow returns non-existant gpus (at least for me) which cause huge lags (if a real aura-ready gpu is connected this doesn't happen)
-                int graphicCardCount = _AuraSDK.EnumerateGPU(IntPtr.Zero, 0);
+                /*int graphicCardCount = _AuraSDK.EnumerateGPU(IntPtr.Zero, 0);
                 if (graphicCardCount > 0)
                 {
                     IntPtr grapicsCardHandles = Marshal.AllocHGlobal(graphicCardCount * IntPtr.Size);
@@ -129,7 +129,7 @@ namespace RGB.NET.Devices.Aura
                         device.Initialize();
                         devices.Add(device);
                     }
-                }
+                }*/
 
                 #endregion
 
@@ -156,27 +156,27 @@ namespace RGB.NET.Devices.Aura
 
                 #region Keyboard
 
-                IntPtr keyboardHandle = Marshal.AllocHGlobal(IntPtr.Size);
+                /*IntPtr keyboardHandle = Marshal.AllocHGlobal(IntPtr.Size);
                 if (_AuraSDK.CreateClaymoreKeyboard(keyboardHandle))
                 {
                     _AuraSDK.SetClaymoreKeyboardMode(keyboardHandle, 1);
                     AuraKeyboardRGBDevice device = new AuraKeyboardRGBDevice(new AuraKeyboardRGBDeviceInfo(RGBDeviceType.Keyboard, keyboardHandle, GetCulture()));
                     device.Initialize();
                     devices.Add(device);
-                }
+                }*/
 
                 #endregion
 
                 #region Mouse
 
-                IntPtr mouseHandle = Marshal.AllocHGlobal(IntPtr.Size);
+                /*IntPtr mouseHandle = Marshal.AllocHGlobal(IntPtr.Size);
                 if (_AuraSDK.CreateRogMouse(mouseHandle))
                 {
                     _AuraSDK.SetRogMouseMode(mouseHandle, 1);
                     AuraMouseRGBDevice device = new AuraMouseRGBDevice(new AuraMouseRGBDeviceInfo(RGBDeviceType.Mouse, mouseHandle));
                     device.Initialize();
                     devices.Add(device);
-                }
+                }*/
 
                 #endregion
 

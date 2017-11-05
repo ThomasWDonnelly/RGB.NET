@@ -51,6 +51,12 @@ namespace RGB.NET.Devices.Aura
         /// <inheritdoc />
         protected override void ApplyColorData() => _AuraSDK.SetMbColor(MainboardDeviceInfo.Handle, ColorData);
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Possible values in order: backIO, PCH, headerOne, headerTwo.
+        /// </summary>
+        public override byte[] CurrentColorData() => _AuraSDK.GetMbColor(MainboardDeviceInfo.Handle);
+
         #endregion
     }
 }

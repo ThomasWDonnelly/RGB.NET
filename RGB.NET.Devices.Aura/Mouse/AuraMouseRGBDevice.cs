@@ -50,6 +50,12 @@ namespace RGB.NET.Devices.Aura
         /// <inheritdoc />
         protected override void ApplyColorData() => _AuraSDK.SetRogMouseColor(MouseDeviceInfo.Handle, ColorData);
 
+        /// <inheritdoc />
+        public override byte[] CurrentColorData()
+        {
+            throw new System.NotImplementedException();
+        }
+
         #endregion
     }
 }

@@ -191,10 +191,10 @@ namespace RGB.NET.Devices.Aura.Native
 
         internal static byte[] GetMbColor(IntPtr handle)
         {
-            int count = _getDramColorPointer(handle, IntPtr.Zero, 0);
-            byte[] colors = new byte[count];
+            //int count = _getDramColorPointer(handle, IntPtr.Zero, 0);
+            byte[] colors = new byte[_getMbLedCountPointer(handle) * 3];
             IntPtr readColorsPtr = Marshal.AllocHGlobal(colors.Length);
-            _getMbColorPointer(handle, readColorsPtr, colors.Length);
+            int size = _getMbColorPointer(handle, readColorsPtr, colors.Length);
             Marshal.Copy(readColorsPtr, colors, 0, colors.Length);
             Marshal.FreeHGlobal(readColorsPtr);
             return colors;
