@@ -12,7 +12,7 @@ Eventually I want to create one program that unifies all of my lighting systems 
 
 # Building this
 
-You will need build and install (NuGet) HidLibrary https://github.com/mikeobrien/HidLibrary
+You will need to build and install (NuGet) HidLibrary https://github.com/mikeobrien/HidLibrary
 
 Then build this project and install (NuGet) my modified versions of DarthAffe's RGB.NET (Huge thanks to him, made this project much simpler!)
 
