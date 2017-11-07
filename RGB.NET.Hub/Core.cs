@@ -7,6 +7,7 @@ using RGB.NET.Core;
 using RGB.NET.Devices.Aura;
 using RGB.NET.Devices.Corsair;
 using System.Threading;
+using HidLibrary;
 
 namespace RGB.NET.Hub
 {
@@ -14,26 +15,19 @@ namespace RGB.NET.Hub
     {
         static void Main(string[] args)
         {
-            bool lightingUp = true;
 
-            AuraSync asServ = new AuraSync();
+            AuraSync auraControlsCue = new AuraSync();
 
-            asServ.run();
+            LightingNodePro auraControlsLNP = new LightingNodePro();
 
-            var t = new Thread(() => (new AuraSync()).run());
+            Thread lightCue = new Thread(new ThreadStart(auraControlsCue.run));
+            Thread lightLNP = new Thread(new ThreadStart(auraControlsLNP.run));
 
-            while (lightingUp)
-            {
-                System.ConsoleKeyInfo k = System.Console.ReadKey();
+            lightCue.Start();
+            lightLNP.Start();
 
-                if (k.Equals(System.ConsoleKey.Enter))
-                {
-                    lightingUp = false;
-                }
-            }
-
-            
-            
+            Console.ReadKey();
         }
+
     }
 }
