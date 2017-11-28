@@ -8,16 +8,21 @@ using System.Linq;
 
 namespace RGB.NET.Core
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractBindable" />
+    /// <inheritdoc cref="IRGBDevice{TDeviceInfo}" />
     /// <summary>
     /// Represents a generic RGB-device
     /// </summary>
-    public abstract class AbstractRGBDevice : AbstractBindable, IRGBDevice
+    public abstract class AbstractRGBDevice<TDeviceInfo> : AbstractBindable, IRGBDevice<TDeviceInfo>
+        where TDeviceInfo : IRGBDeviceInfo
     {
         #region Properties & Fields
 
         /// <inheritdoc />
-        public abstract IRGBDeviceInfo DeviceInfo { get; }
+        public abstract TDeviceInfo DeviceInfo { get; }
+
+        /// <inheritdoc />
+        IRGBDeviceInfo IRGBDevice.DeviceInfo => DeviceInfo;
 
         /// <inheritdoc />
         public Size Size => new Size(InternalSize?.Width ?? 0, InternalSize?.Height ?? 0);
@@ -137,20 +142,14 @@ namespace RGB.NET.Core
         /// Returns an enumerator that iterates over all <see cref="T:RGB.NET.Core.Led" /> of the <see cref="T:RGB.NET.Core.IRGBDevice" />.
         /// </summary>
         /// <returns>An enumerator for all <see cref="T:RGB.NET.Core.Led" /> of the <see cref="T:RGB.NET.Core.IRGBDevice" />.</returns>
-        public IEnumerator<Led> GetEnumerator()
-        {
-            return LedMapping.Values.GetEnumerator();
-        }
+        public IEnumerator<Led> GetEnumerator() => LedMapping.Values.GetEnumerator();
 
         /// <inheritdoc />
         /// <summary>
         /// Returns an enumerator that iterates over all <see cref="T:RGB.NET.Core.Led" /> of the <see cref="T:RGB.NET.Core.IRGBDevice" />.
         /// </summary>
         /// <returns>An enumerator for all <see cref="T:RGB.NET.Core.Led" /> of the <see cref="T:RGB.NET.Core.IRGBDevice" />.</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         #endregion
 

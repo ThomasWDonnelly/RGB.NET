@@ -9,11 +9,13 @@ using RGB.NET.Devices.Corsair.Native;
 
 namespace RGB.NET.Devices.Corsair
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}" />
+    /// <inheritdoc cref="ICorsairRGBDevice" />
     /// <summary>
     /// Represents a generic CUE-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
-    public abstract class CorsairRGBDevice : AbstractRGBDevice
+    public abstract class CorsairRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceInfo>, ICorsairRGBDevice
+        where TDeviceInfo : CorsairRGBDeviceInfo
     {
         #region Properties & Fields
 
@@ -21,17 +23,17 @@ namespace RGB.NET.Devices.Corsair
         /// <summary>
         /// Gets information about the <see cref="T:RGB.NET.Devices.Corsair.CorsairRGBDevice" />.
         /// </summary>
-        public override IRGBDeviceInfo DeviceInfo { get; }
+        public override TDeviceInfo DeviceInfo { get; }
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CorsairRGBDevice"/> class.
+        /// Initializes a new instance of the <see cref="CorsairRGBDevice{TDeviceInfo}"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by CUE for the device.</param>
-        protected CorsairRGBDevice(IRGBDeviceInfo info)
+        protected CorsairRGBDevice(TDeviceInfo info)
         {
             this.DeviceInfo = info;
         }
@@ -43,7 +45,7 @@ namespace RGB.NET.Devices.Corsair
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        internal void Initialize()
+        public void Initialize()
         {
             InitializeLayout();
 
@@ -125,6 +127,38 @@ namespace RGB.NET.Devices.Corsair
                 _CUESDK.CorsairSetLedsColors(leds.Count, ptr);
                 Marshal.FreeHGlobal(ptr);
             }
+        }
+
+        /// <summary>
+        /// Reads the current color-data from the device
+        /// </summary>
+        /// <returns>A dictionary mapping the <see cref="CorsairLedIds"/> to the current <see cref="Color"/>.</returns>
+        protected Dictionary<CorsairLedIds, Color> GetColors()
+        {
+            int structSize = Marshal.SizeOf(typeof(_CorsairLedColor));
+            IntPtr ptr = Marshal.AllocHGlobal(structSize * LedMapping.Count);
+            IntPtr addPtr = new IntPtr(ptr.ToInt64());
+            foreach (Led led in this)
+            {
+                _CorsairLedColor color = new _CorsairLedColor { ledId = (int)((CorsairLedId)led.Id).LedId };
+                Marshal.StructureToPtr(color, addPtr, false);
+                addPtr = new IntPtr(addPtr.ToInt64() + structSize);
+            }
+            _CUESDK.CorsairGetLedsColors(LedMapping.Count, ptr);
+
+            IntPtr readPtr = ptr;
+            Dictionary<CorsairLedIds, Color> colorData = new Dictionary<CorsairLedIds, Color>();
+            for (int i = 0; i < LedMapping.Count; i++)
+            {
+                _CorsairLedColor ledColor = (_CorsairLedColor)Marshal.PtrToStructure(readPtr, typeof(_CorsairLedColor));
+                colorData.Add((CorsairLedIds)ledColor.ledId, new Color((byte)ledColor.r, (byte)ledColor.g, (byte)ledColor.b));
+
+                readPtr = new IntPtr(readPtr.ToInt64() + structSize);
+            }
+
+            Marshal.FreeHGlobal(ptr);
+
+            return colorData;
         }
 
         #endregion

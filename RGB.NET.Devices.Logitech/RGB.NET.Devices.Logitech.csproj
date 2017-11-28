@@ -38,8 +38,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    <Reference Include="System.ValueTuple, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.1\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -53,15 +53,16 @@
     <Compile Include="Enum\LogitechPhysicalKeyboardLayout.cs" />
     <Compile Include="Enum\LogitechDeviceCaps.cs" />
     <Compile Include="Enum\LogitechLedIds.cs" />
+    <Compile Include="Generic\ILogitechRGBDevice.cs" />
     <Compile Include="Generic\LogitechLedId.cs" />
     <Compile Include="Generic\LogitechRGBDevice.cs" />
     <Compile Include="Generic\LogitechRGBDeviceInfo.cs" />
     <Compile Include="Helper\BitmapMapping.cs" />
     <Compile Include="HID\DeviceChecker.cs" />
-    <Compile Include="Keyboard\LogitechKeyboardRGBDevice.cs" />
-    <Compile Include="Keyboard\LogitechKeyboardRGBDeviceInfo.cs" />
     <Compile Include="LogitechDeviceProvider.cs" />
     <Compile Include="Native\_LogitechGSDK.cs" />
+    <Compile Include="PerDevice\LogitechPerDeviceRGBDevice.cs" />
+    <Compile Include="PerKey\LogitechPerKeyRGBDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +201,7 @@
     <Content Include="libs\x64\LogitechLedEnginesWrapper.dll" />
     <Content Include="libs\x86\LogitechLedEnginesWrapper.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

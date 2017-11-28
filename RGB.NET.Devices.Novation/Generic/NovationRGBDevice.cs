@@ -8,34 +8,36 @@ using Sanford.Multimedia.Midi;
 
 namespace RGB.NET.Devices.Novation
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}" />
+    /// <inheritdoc cref="INovationRGBDevice" />
     /// <summary>
     /// Represents a generic Novation-device. (launchpad).
     /// </summary>
-    public abstract class NovationRGBDevice : AbstractRGBDevice
+    public abstract class NovationRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceInfo>, INovationRGBDevice
+        where TDeviceInfo : NovationRGBDeviceInfo
     {
         #region Properties & Fields
 
         private readonly OutputDevice _outputDevice;
-        private readonly NovationRGBDeviceInfo _deviceInfo;
+        private readonly TDeviceInfo _deviceInfo;
 
         /// <inheritdoc />
         /// <summary>
         /// Gets information about the <see cref="T:RGB.NET.Devices.Novation.NovationRGBDevice" />.
         /// </summary>
-        public override IRGBDeviceInfo DeviceInfo => _deviceInfo;
+        public override TDeviceInfo DeviceInfo => _deviceInfo;
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NovationRGBDevice"/> class.
+        /// Initializes a new instance of the <see cref="NovationRGBDevice{TDeviceInfo}"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by Novation for the device.</param>
-        protected NovationRGBDevice(NovationRGBDeviceInfo info)
+        protected NovationRGBDevice(TDeviceInfo info)
         {
-            _deviceInfo = info;
+            this._deviceInfo = info;
 
             _outputDevice = new OutputDevice(info.DeviceId);
         }
@@ -48,7 +50,7 @@ namespace RGB.NET.Devices.Novation
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        internal void Initialize()
+        public void Initialize()
         {
             InitializeLayout();
 
@@ -123,12 +125,12 @@ namespace RGB.NET.Devices.Novation
         }
 
         /// <summary>
-        /// Resets the <see cref="NovationRGBDevice"/> back top default.
+        /// Resets the <see cref="NovationRGBDevice{TDeviceInfo}"/> back top default.
         /// </summary>
         public virtual void Reset() => SendMessage(0xB0, 0, 0);
 
         /// <summary>
-        /// Convert a <see cref="Color"/> to its novation-representation depending on the <see cref="NovationColorCapabilities"/> of the <see cref="NovationRGBDevice"/>.
+        /// Convert a <see cref="Color"/> to its novation-representation depending on the <see cref="NovationColorCapabilities"/> of the <see cref="NovationRGBDevice{TDeviceInfo}"/>.
         /// </summary>
         /// <param name="color">The <see cref="Color"/> to convert.</param>
         /// <returns>The novation-representation of the <see cref="Color"/>.</returns>
@@ -146,7 +148,7 @@ namespace RGB.NET.Devices.Novation
         }
 
         /// <summary>
-        /// Convert a <see cref="Color"/> to its novation-representation depending on the <see cref="NovationColorCapabilities"/> of the <see cref="NovationRGBDevice"/>.
+        /// Convert a <see cref="Color"/> to its novation-representation depending on the <see cref="NovationColorCapabilities"/> of the <see cref="NovationRGBDevice{TDeviceInfo}"/>.
         /// The conversion uses the full rgb-range.
         /// </summary>
         /// <param name="color">The <see cref="Color"/> to convert.</param>
@@ -158,7 +160,7 @@ namespace RGB.NET.Devices.Novation
         }
 
         /// <summary>
-        /// Convert a <see cref="Color"/> to its novation-representation depending on the <see cref="NovationColorCapabilities"/> of the <see cref="NovationRGBDevice"/>.
+        /// Convert a <see cref="Color"/> to its novation-representation depending on the <see cref="NovationColorCapabilities"/> of the <see cref="NovationRGBDevice{TDeviceInfo}"/>.
         /// The conversion uses only a limited amount of colors (3 red, 3 yellow, 3 green).
         /// </summary>
         /// <param name="color">The <see cref="Color"/> to convert.</param>
@@ -178,7 +180,7 @@ namespace RGB.NET.Devices.Novation
         }
 
         /// <summary>
-        /// Sends a message to the <see cref="NovationRGBDevice"/>.
+        /// Sends a message to the <see cref="NovationRGBDevice{TDeviceInfo}"/>.
         /// </summary>
         /// <param name="status">The status-code of the message.</param>
         /// <param name="data1">The first data-package of the message.</param>
@@ -189,7 +191,8 @@ namespace RGB.NET.Devices.Novation
             _outputDevice.SendShort(shortMessage.Message);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IDisposable.Dispose" />
+        /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}.Dispose" />
         public override void Dispose()
         {
             Reset();

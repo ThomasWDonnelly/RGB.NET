@@ -34,8 +34,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    <Reference Include="System.ValueTuple, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.1\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -59,6 +59,9 @@
     <Compile Include="Generic\CorsairProtocolDetails.cs" />
     <Compile Include="Generic\CorsairRGBDeviceInfo.cs" />
     <Compile Include="Generic\CorsairRGBDevice.cs" />
+    <Compile Include="Generic\ICorsairRGBDevice.cs" />
+    <Compile Include="HeadsetStand\CorsairHeadsetStandRGBDevice.cs" />
+    <Compile Include="HeadsetStand\CorsairHeadsetStandRGBDeviceInfo.cs" />
     <Compile Include="Headset\CorsairHeadsetRGBDevice.cs" />
     <Compile Include="Headset\CorsairHeadsetRGBDeviceInfo.cs" />
     <Compile Include="Keyboard\CorsairKeyboardRGBDevice.cs" />
@@ -91,6 +94,7 @@
     <Folder Include="Images\Corsair\Headsets\" />
     <Folder Include="Images\Corsair\Mice\" />
     <Folder Include="Images\Corsair\Mousepads\" />
+    <Folder Include="Layouts\Corsair\HeadsetStands\" />
     <Folder Include="Layouts\Corsair\Headsets\" />
     <Folder Include="Layouts\Corsair\Mice\" />
     <Folder Include="Layouts\Corsair\Mousepads\" />

@@ -8,28 +8,30 @@ using RGB.NET.Devices.CoolerMaster.Native;
 
 namespace RGB.NET.Devices.CoolerMaster
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}" />
+    /// <inheritdoc cref="ICoolerMasterRGBDevice" />
     /// <summary>
     /// Represents a generic CoolerMaster-device. (keyboard, mouse, headset, mousepad).
     /// </summary>
-    public abstract class CoolerMasterRGBDevice : AbstractRGBDevice
+    public abstract class CoolerMasterRGBDevice<TDeviceInfo> : AbstractRGBDevice<TDeviceInfo>, ICoolerMasterRGBDevice
+        where TDeviceInfo : CoolerMasterRGBDeviceInfo
     {
         #region Properties & Fields
         /// <inheritdoc />
         /// <summary>
         /// Gets information about the <see cref="T:RGB.NET.Devices.CoolerMaster.CoolerMasterRGBDevice" />.
         /// </summary>
-        public override IRGBDeviceInfo DeviceInfo { get; }
+        public override TDeviceInfo DeviceInfo { get; }
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CoolerMasterRGBDevice"/> class.
+        /// Initializes a new instance of the <see cref="CoolerMasterRGBDevice{TDeviceInfo}"/> class.
         /// </summary>
         /// <param name="info">The generic information provided by CoolerMaster for the device.</param>
-        protected CoolerMasterRGBDevice(IRGBDeviceInfo info)
+        protected CoolerMasterRGBDevice(TDeviceInfo info)
         {
             this.DeviceInfo = info;
         }
@@ -42,7 +44,7 @@ namespace RGB.NET.Devices.CoolerMaster
         /// <summary>
         /// Initializes the device.
         /// </summary>
-        internal void Initialize()
+        public void Initialize()
         {
             InitializeLayout();
 
@@ -105,7 +107,7 @@ namespace RGB.NET.Devices.CoolerMaster
 
             if (leds.Count > 0)
             {
-                _CoolerMasterSDK.SetControlDevice(((CoolerMasterRGBDeviceInfo)DeviceInfo).DeviceIndex);
+                _CoolerMasterSDK.SetControlDevice(DeviceInfo.DeviceIndex);
 
                 foreach (Led led in leds)
                 {
@@ -117,10 +119,11 @@ namespace RGB.NET.Devices.CoolerMaster
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="IDisposable.Dispose" />
+        /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}.Dispose" />
         public override void Dispose()
         {
-            _CoolerMasterSDK.SetControlDevice(((CoolerMasterRGBDeviceInfo)DeviceInfo).DeviceIndex);
+            _CoolerMasterSDK.SetControlDevice(DeviceInfo.DeviceIndex);
             _CoolerMasterSDK.EnableLedControl(false);
 
             base.Dispose();
