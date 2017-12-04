@@ -41,10 +41,16 @@ namespace RGB.NET.Devices.Asus
         protected override void ApplyColorData() => _AsusSDK.SetMbColor(DeviceInfo.Handle, ColorData);
 
         /// <inheritdoc />
-        /// <summary>
-        /// Possible values in order: backIO, PCH, headerOne, headerTwo.
-        /// </summary>
-        public override byte[] GetColors() => _AsusSDK.GetMbColor(DeviceInfo.Handle);
+        public override Color[] GetColors()
+        {
+            byte[] colorData = _AsusSDK.GetMbColor(DeviceInfo.Handle);
+            Color[] colors = new Color[colorData.Length / 3];
+
+            for (int i = 0; i < colors.Length; i++)
+                colors[i] = new Color(colorData[(i * 3)], colorData[(i * 3) + 2], colorData[(i * 3) + 1]);
+
+            return colors;
+        }
 
         #endregion
     }

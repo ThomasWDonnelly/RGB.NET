@@ -40,7 +40,7 @@ namespace RGB.NET.Devices.Asus
         protected override void ApplyColorData() => _AsusSDK.SetRogMouseColor(DeviceInfo.Handle, ColorData);
         
         /// <inheritdoc />
-        public override byte[] GetColors()
+        public override Color[] GetColors()
         {
             throw new System.NotImplementedException();
         }

@@ -191,8 +191,8 @@ namespace RGB.NET.Devices.Asus.Native
 
         internal static byte[] GetMbColor(IntPtr handle)
         {
-            //int count = _getDramColorPointer(handle, IntPtr.Zero, 0);
-            byte[] colors = new byte[_getMbLedCountPointer(handle) * 3];
+            int count = _getMbColorPointer(handle, IntPtr.Zero, 0);
+            byte[] colors = new byte[count];
             IntPtr readColorsPtr = Marshal.AllocHGlobal(colors.Length);
             _getMbColorPointer(handle, readColorsPtr, colors.Length);
             Marshal.Copy(readColorsPtr, colors, 0, colors.Length);

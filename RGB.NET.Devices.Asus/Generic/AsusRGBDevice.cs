@@ -134,7 +134,7 @@ namespace RGB.NET.Devices.Asus
         /// <summary>
         /// Gets available rbg color values from the device.
         /// </summary>
-        public abstract byte[] GetColors();
+        public abstract Color[] GetColors();
 
         /// <inheritdoc cref="IDisposable.Dispose" />
         /// <inheritdoc cref="AbstractRGBDevice{TDeviceInfo}.Dispose" />
